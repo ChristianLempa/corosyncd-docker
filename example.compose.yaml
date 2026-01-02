@@ -1,0 +1,26 @@
+---
+services:
+  corosync-qnetd:
+    image: ghcr.io/corosync/corosync-qnetd:latest
+    container_name: corosync-qnetd
+    restart: unless-stopped
+    ports:
+      - "5403:5403"
+    volumes:
+      - qnetd-data:/etc/corosync/qnetd
+    networks:
+      - qnetd-network
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "5403"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  qnetd-data:
+    driver: local
+
+networks:
+  qnetd-network:
+    driver: bridge
