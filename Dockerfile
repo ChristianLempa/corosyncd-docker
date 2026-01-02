@@ -13,11 +13,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Create necessary directories
-RUN mkdir -p /etc/corosync/qnetd/nssdb
-
-# Initialize the certificate database
-RUN corosync-qnetd-certutil -i
+# The certificate database is automatically initialized during package installation
+# No need to run corosync-qnetd-certutil -i manually
 
 # Expose the QNetd port
 EXPOSE 5403
